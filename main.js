@@ -41,76 +41,158 @@ function operate(num1, num2, operator){
     }
 }
 
-screen = document.querySelector(".screen");
-btn1 = document.querySelector(".btn1");
-btn2 = document.querySelector(".btn2");
-btn3 = document.querySelector(".btn3");
-btn4 = document.querySelector(".btn4");
-btn5 = document.querySelector(".btn5");
-btn6 = document.querySelector(".btn6");
-btn7 = document.querySelector(".btn7");
-btn8 = document.querySelector(".btn8");
-btn9 = document.querySelector(".btn9");
-btn0 = document.querySelector(".btn0");
-btnMultiply = document.querySelector(".btnMultiply");
-btnDivide = document.querySelector(".btnDivide");
-btnAdd = document.querySelector(".btnAdd");
-btnSubtract = document.querySelector(".btnSubtract");
-btnEquals = document.querySelector(".btnEquals");
-btnClear = document.querySelector(".clear");
-btnBackspace = document.querySelector(".backspace")
+const screen = document.querySelector(".screen");
+const btn1 = document.querySelector(".btn1");
+const btn2 = document.querySelector(".btn2");
+const btn3 = document.querySelector(".btn3");
+const btn4 = document.querySelector(".btn4");
+const btn5 = document.querySelector(".btn5");
+const btn6 = document.querySelector(".btn6");
+const btn7 = document.querySelector(".btn7");
+const btn8 = document.querySelector(".btn8");
+const btn9 = document.querySelector(".btn9");
+const btn0 = document.querySelector(".btn0");
+const btnDecimal = document.querySelector(".decimal");
+const btnMultiply = document.querySelector(".btnMultiply");
+const btnDivide = document.querySelector(".btnDivide");
+const btnAdd = document.querySelector(".btnAdd");
+const btnSubtract = document.querySelector(".btnSubtract");
+const btnEquals = document.querySelector(".btnEquals");
+const btnClear = document.querySelector(".clear");
+const btnBackspace = document.querySelector(".backspace")
 
 let displayValue = ""
 
-btn1.addEventListener("click", ()=>{
+btn1.addEventListener("click", press1)
+btn2.addEventListener("click", press2)
+btn3.addEventListener("click", press3)
+btn4.addEventListener("click", press4)
+btn5.addEventListener("click", press5)
+btn6.addEventListener("click", press6)
+btn7.addEventListener("click", press7)
+btn8.addEventListener("click", press8)
+btn9.addEventListener("click", press9)
+btn0.addEventListener("click", press0)
+
+btnDecimal.addEventListener("click", pressDecimal)
+
+btnAdd.addEventListener("click", pressAdd)
+btnSubtract.addEventListener("click", pressSubtract)
+btnMultiply.addEventListener("click", pressMultiply)
+btnDivide.addEventListener("click", pressDivide)
+
+btnEquals.addEventListener("click", pressEquals)
+
+btnClear.addEventListener("click", pressClear)
+
+btnBackspace.addEventListener("click", pressBackspace)
+
+
+function updateScreen(){
+    if (displayValue.length <= 9){
+        screen.textContent = displayValue 
+    }
+
+}
+
+function disableOperators(){
+    btnAdd.disabled  = true
+    btnSubtract.disabled  = true
+    btnMultiply.disabled  = true
+    btnDivide.disabled  = true
+}
+
+function enableOperators(){
+    btnAdd.disabled  = false;
+    btnSubtract.disabled  = false;
+    btnMultiply.disabled  = false;
+    btnDivide.disabled  = false;
+    btnDecimal.disabled = false;
+
+}
+
+function roundLongNum(longNum){
+    if (longNum.toString().length > 9)
+        {const numDigits = Math.round(longNum).toString().length;
+        const numDecimals = 8 - numDigits
+        const truncatedNum = longNum.toFixed(numDecimals)
+        return truncatedNum}
+    else{
+        return longNum
+    }
+    }
+
+function press1(){
     displayValue += "1";
-    updateScreen()})
-btn2.addEventListener("click", ()=>{
+    updateScreen()}
+
+function press2(){
     displayValue += "2";
-    updateScreen()})
-btn3.addEventListener("click", ()=>{
+    updateScreen()}
+
+function press3(){
     displayValue += "3";
-    updateScreen()})
-btn4.addEventListener("click", ()=>{
+    updateScreen()}
+
+function press4(){
     displayValue += "4";
-    updateScreen()})
-btn5.addEventListener("click", ()=>{
+    updateScreen()}
+
+function press5(){
     displayValue += "5";
-    updateScreen()})
-btn6.addEventListener("click", ()=>{
+    updateScreen()}
+
+function press6(){
     displayValue += "6";
-    updateScreen()})
-btn7.addEventListener("click", ()=>{
+    updateScreen()}
+
+function press7(){
     displayValue += "7";
-    updateScreen()})
-btn8.addEventListener("click", ()=>{
+    updateScreen()}
+
+function press8(){
     displayValue += "8";
-    updateScreen()})
-btn9.addEventListener("click", ()=>{
+    updateScreen()}
+
+function press9(){
     displayValue += "9";
-    updateScreen()})
-btn0.addEventListener("click", ()=>{
+    updateScreen()}
+
+function press0(){
     displayValue += "0";
-    updateScreen()})
+    updateScreen()}
 
-btnAdd.addEventListener("click", ()=>{
+function pressDecimal(){
+    displayValue += ".";
+    btnDecimal.disabled = true;
+    updateScreen()
+}
+
+function pressAdd(){
     displayValue += "+";
+    btnDecimal.disabled = false
     disableOperators()
-    updateScreen()})
-btnSubtract.addEventListener("click", ()=>{
-    displayValue += "-";
-    disableOperators()
-    updateScreen()})
-btnMultiply.addEventListener("click", ()=>{
-    displayValue += "×";
-    disableOperators()
-    updateScreen()})
-btnDivide.addEventListener("click", ()=>{
-    displayValue += "÷"
-    disableOperators()
-    updateScreen()})
+    updateScreen()}
 
-btnEquals.addEventListener("click", () => {
+function pressSubtract(){
+    displayValue += "-";
+    btnDecimal.disabled = false
+    disableOperators()
+    updateScreen()}
+
+function pressMultiply(){
+    displayValue += "×";
+    btnDecimal.disabled = false
+    disableOperators()
+    updateScreen()}
+
+function pressDivide(){
+    displayValue += "÷"
+    btnDecimal.disabled = false
+    disableOperators()
+    updateScreen()}
+
+function pressEquals(){
     if (displayValue.includes("+")){
         const array = displayValue.split("+");
         let num1 = Number(array[0]);
@@ -157,49 +239,77 @@ btnEquals.addEventListener("click", () => {
         updateScreen();
         enableOperators();
     }
-})
+}
 
-btnClear.addEventListener("click", () => {
+function pressClear(){
     displayValue = "";
     updateScreen()
-})
+    enableOperators()
+}
 
-btnBackspace.addEventListener("click", () => {
+function pressBackspace(){
+    if(displayValue[displayValue.length-1] === "."){
+        btnDecimal.disabled = false
+    }
     displayValue = displayValue.substring(0, (displayValue.length-1));
     updateScreen();
-})
-
-
-function updateScreen(){
-    if (displayValue.length <= 9){
-        screen.textContent = displayValue 
-    }
-
 }
+    
 
-function disableOperators(){
-    btnAdd.disabled  = true
-    btnSubtract.disabled  = true
-    btnMultiply.disabled  = true
-    btnDivide.disabled  = true
-}
+    
 
-function enableOperators(){
-    btnAdd.disabled  = false
-    btnSubtract.disabled  = false
-    btnMultiply.disabled  = false
-    btnDivide.disabled  = false
-}
-
-function roundLongNum(longNum){
-    if (longNum.toString().length > 9)
-        {const numDigits = Math.round(longNum).toString().length;
-        const numDecimals = 8 - numDigits
-        const truncatedNum = longNum.toFixed(numDecimals)
-        return truncatedNum}
-    else{
-        return longNum
-    }
-    }
-
-
+document.addEventListener("keyup", (e) =>{
+    if (e.key === "1"){
+        press1()
+        }
+    else if (e.key === "2"){
+        press2()
+        }
+    else if (e.key === "3"){
+        press3()
+        }
+    else if (e.key === "4"){
+        press4()
+        }
+    else if (e.key === "5"){
+        press5()
+        }
+    else if (e.key === "6"){
+        press6()
+        }
+    else if (e.key === "7"){
+        press7()
+        }
+    else if (e.key === "8"){
+        press8()
+        }
+    else if (e.key === "9"){
+        press9()
+        }
+    else if (e.key === "0"){
+        press0()
+        }
+    else if (e.key === "."){
+        pressDecimal()
+        }
+    else if (e.key === "+"){
+        pressAdd()
+        }
+    else if (e.key === "-"){
+        pressSubtract()
+        }
+    else if (e.key === "x" || e.key ==="*"){
+        pressMultiply()
+        }
+    else if (e.key === "/"){
+        pressDivide()}
+    else if (e.key === "=" || e.key === "Enter"){
+        pressEquals()
+        }
+    else if (e.key === "Backspace"){
+        pressBackspace()
+        }
+    else if (e.key === "c"){
+        pressClear()
+        }
+    })
