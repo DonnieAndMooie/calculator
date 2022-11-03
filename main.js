@@ -1,25 +1,26 @@
 function add(num1, num2){
     let output = num1 + num2;
-    console.log(output);
     return (output);
 }
 
 function subtract(num1, num2){
     let output = num1 - num2;
-    console.log(output);
     return (output);
 }
 
 function multiply(num1, num2){
     let output = num1 * num2;
-    console.log(output);
     return (output);
 }
 
 function divide(num1, num2){
-    let output = num1 / num2;
-    console.log(output);
-    return (output);
+    if(num2 === 0){
+        alert("You can't divide by zero!")
+        return num1
+    }
+    else
+        {let output = num1 / num2;
+        return (output);}
 }
 
 function operate(num1, num2, operator){
@@ -56,6 +57,8 @@ btnDivide = document.querySelector(".btnDivide");
 btnAdd = document.querySelector(".btnAdd");
 btnSubtract = document.querySelector(".btnSubtract");
 btnEquals = document.querySelector(".btnEquals");
+btnClear = document.querySelector(".clear");
+btnBackspace = document.querySelector(".backspace")
 
 let displayValue = ""
 
@@ -113,6 +116,7 @@ btnEquals.addEventListener("click", () => {
         let num1 = Number(array[0]);
         let num2 = Number(array[1]);
         displayValue = operate(num1, num2, "+");
+        displayValue = roundLongNum(displayValue);
         displayValue = displayValue.toString();
         updateScreen();
         enableOperators()
@@ -122,6 +126,7 @@ btnEquals.addEventListener("click", () => {
         let num1 = Number(array[0]);
         let num2 = Number(array[1]);
         displayValue = operate(num1, num2, "-");
+        displayValue = roundLongNum(displayValue);
         displayValue = displayValue.toString();
         updateScreen();
         enableOperators()
@@ -130,7 +135,11 @@ btnEquals.addEventListener("click", () => {
         const array = displayValue.split("×");
         let num1 = Number(array[0]);
         let num2 = Number(array[1]);
+        if (array[1] === ""){
+            num2 = 1
+        }
         displayValue = operate(num1, num2, "*");
+        displayValue = roundLongNum(displayValue);
         displayValue = displayValue.toString();
         updateScreen();
         enableOperators()
@@ -139,12 +148,27 @@ btnEquals.addEventListener("click", () => {
         const array = displayValue.split("÷");
         let num1 = Number(array[0]);
         let num2 = Number(array[1]);
+        if (array[1] === ""){
+            num2 = 1
+        }
         displayValue = operate(num1, num2, "/");
+        displayValue = roundLongNum(displayValue);
         displayValue = displayValue.toString();
         updateScreen();
-        enableOperators()
+        enableOperators();
     }
 })
+
+btnClear.addEventListener("click", () => {
+    displayValue = "";
+    updateScreen()
+})
+
+btnBackspace.addEventListener("click", () => {
+    displayValue = displayValue.substring(0, (displayValue.length-1));
+    updateScreen();
+})
+
 
 function updateScreen(){
     if (displayValue.length <= 9){
@@ -167,5 +191,15 @@ function enableOperators(){
     btnDivide.disabled  = false
 }
 
+function roundLongNum(longNum){
+    if (longNum.toString().length > 9)
+        {const numDigits = Math.round(longNum).toString().length;
+        const numDecimals = 8 - numDigits
+        const truncatedNum = longNum.toFixed(numDecimals)
+        return truncatedNum}
+    else{
+        return longNum
+    }
+    }
 
 
