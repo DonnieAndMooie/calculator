@@ -26,7 +26,7 @@ h1{
     height: 100px;
     margin-bottom: 20px;
     padding:10px;
-    font-size: 80px;
+    font-size: 76px;
     display:flex;
     justify-content: flex-end;
     font-family: "helvetica", "sans-serif";
@@ -51,6 +51,7 @@ button{
     font-size: 32px;
     font-weight: bold;
     font-family: "helvetica", "sans-serif";
+    border-radius: 15px;
 }
 
 .operator{
